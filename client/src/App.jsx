@@ -8,6 +8,14 @@ import BookCab from "./components/BookCab";
 import MyBookings from "./components/MyBookings";
 
 import Alogin from "./admin/Alogin";
+import Aregister from "./admin/Aregister";
+import Ahome from "./admin/Ahome";
+import Users from "./admin/Users";
+import UserEdit from "./admin/UserEdit";
+import Bookings from "./admin/Bookings";
+import Acabs from "./admin/Acabs";
+import AcabEdit from "./admin/AcabEdit";
+import AddCar from "./admin/AddCar";
 
 
 function App() {
@@ -23,6 +31,15 @@ function App() {
         <Route path="/mybookings" element={<MyBookings />} />
 
         <Route path="/alogin" element={<Alogin />} />
+        <Route path="/aregister" element={<Aregister />} />
+        <Route path="/ahome" element={<Ahome />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/useredit/:id" element={<UserEdit />} />
+        <Route path="/bookings" element={<Bookings />} />
+        <Route path="/acabs" element={<Acabs />} />
+        <Route path="/acabedit/:id" element={<AcabEdit />} />
+        <Route path="/addcar" element={<AddCar />} />
+
       </Routes>
     </BrowserRouter>
   );
