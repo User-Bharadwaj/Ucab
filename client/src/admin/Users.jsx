@@ -29,7 +29,7 @@ function Users() {
                     <td><strong>Praveen</strong></td>
                     <td>abc@gmail.com</td>
                     <td className="text-center">
-                      <Link to="/admin/useredit/1">
+                      <Link to="/useredit/1">
                         <button className="btn btn-warning btn-sm px-4">
                           Edit
                         </button>

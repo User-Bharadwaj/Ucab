@@ -14,7 +14,7 @@ function Anav() {
         </Link>
 
         <div className="d-flex gap-4 flex-wrap">
-          <Link to="/home" className="nav-link text-white fw-medium">
+          <Link to="/ahome" className="nav-link text-white fw-medium">
             Dashboard
           </Link>
           
