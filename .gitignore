@@ -7,3 +7,28 @@ server/.env
 
 client/dist/
 .DS_Store
+
+
+node_modules
+.env
+dist
+build
+
+# Client build output
+client/dist
+
+# Server uploads (keep folder, ignore files)
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode
+.idea
