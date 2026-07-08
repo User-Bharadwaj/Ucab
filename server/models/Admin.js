@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const adminSchema = new mongoose.Schema(
     {
         fullName: {
             type: String,
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
 
         phone: {
             type: String,
-            required: true,
+            default: "",
         },
 
         profileImage: {
@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
 
         role: {
             type: String,
-            default: "user",
+            default: "admin",
         },
     },
     {
@@ -41,4 +41,4 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.models.Admin || mongoose.model("Admin", adminSchema);

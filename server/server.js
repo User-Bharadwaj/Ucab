@@ -10,7 +10,12 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5174",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Root Route
@@ -47,7 +52,7 @@ app.use((err, req, res, next) => {
 // Start Server
 const startServer = async () => {
   try {
-    await connectDB(); // Team lead will configure Atlas later
+    await connectDB();
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });

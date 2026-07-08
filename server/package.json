@@ -7,7 +7,12 @@
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
-  "keywords": ["cab-booking", "mern", "express", "mongodb"],
+  "keywords": [
+    "cab-booking",
+    "mern",
+    "express",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
@@ -17,6 +22,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.5.0",
     "mongoose": "^9.7.2",
     "multer": "^2.2.0"
   },

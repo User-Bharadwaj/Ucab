@@ -1,57 +1,49 @@
 const mongoose = require("mongoose");
 
-const carSchema = new mongoose.Schema(
+const bookingSchema = new mongoose.Schema(
     {
-        carName: {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+
+        car: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Car",
+            required: true,
+        },
+
+        pickupLocation: {
             type: String,
             required: true,
         },
 
-        carModel: {
+        dropLocation: {
             type: String,
             required: true,
         },
 
-        vehicleNumber: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-
-        category: {
-            type: String,
-            enum: ["Mini", "Sedan", "SUV", "Luxury"],
+        pickupDate: {
+            type: Date,
             required: true,
         },
 
-        seats: {
+        bookingStatus: {
+            type: String,
+            enum: ["Pending", "Confirmed", "Started", "Completed", "Cancelled"],
+            default: "Pending",
+        },
+
+        totalFare: {
             type: Number,
             required: true,
         },
 
-        pricePerKm: {
-            type: Number,
-            required: true,
-        },
-
-        image: {
+        paymentStatus: {
             type: String,
-            default: "",
-        },
-
-        driverName: {
-            type: String,
-            required: true,
-        },
-
-        driverPhone: {
-            type: String,
-            required: true,
-        },
-
-        availability: {
-            type: Boolean,
-            default: true,
+            enum: ["Pending", "Paid"],
+            default: "Pending",
         },
     },
     {
@@ -59,4 +51,4 @@ const carSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("Car", carSchema);
+module.exports = mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
