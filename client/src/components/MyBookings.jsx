@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 import API from "../../services/api";
+import Unav from "./Unav";
+
+const bookingBadgeClass = (status) => {
+  if (status === "Cancelled") return "bg-danger";
+  if (status === "Completed") return "bg-success";
+  if (status === "Confirmed" || status === "Started") return "bg-primary";
+  return "bg-secondary";
+};
 
 function MyBookings() {
   const [bookings, setBookings] = useState([]);
@@ -26,7 +34,7 @@ function MyBookings() {
          style={{
            background: "linear-gradient(135deg, #0d6efd 0%, #198754 100%)"
          }}>
-      
+      <Unav />
       <div className="container">
         <div className="text-center mb-5">
           <h2 className="display-5 fw-bold text-white">My Bookings</h2>
@@ -62,7 +70,9 @@ function MyBookings() {
                         <td><strong>{booking.car?.carName || "Cab"}</strong></td>
                         <td>{new Date(booking.pickupDate).toLocaleDateString()}</td>
                         <td>
-                          <span className="badge bg-success fs-6">{booking.bookingStatus}</span>
+                          <span className={`badge ${bookingBadgeClass(booking.bookingStatus)} fs-6`}>
+                            {booking.bookingStatus}
+                          </span>
                         </td>
                         <td>₹{booking.totalFare}</td>
                         <td>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../../services/api";
+import Unav from "./Unav";
 
 function Cabs() {
   const [cabs, setCabs] = useState([]);
@@ -27,7 +28,7 @@ function Cabs() {
          style={{
            background: "linear-gradient(135deg, #0d6efd 0%, #198754 100%)"
          }}>
-      
+      <Unav />
       <div className="container">
         <div className="text-center mb-5">
           <h2 className="display-5 fw-bold text-white">Available Cabs</h2>
@@ -40,7 +41,7 @@ function Cabs() {
           <div className="alert alert-danger text-center">{error}</div>
         ) : (
           <div className="row g-4">
-          {cabs.map((cab) => (
+          {cabs.filter((cab) => cab.availability !== false).map((cab) => (
             <div className="col-md-6 col-lg-4" key={cab._id}>
               <div className="card h-100 shadow-lg border-0 rounded-4 overflow-hidden">
                 <div className="card-body p-4">

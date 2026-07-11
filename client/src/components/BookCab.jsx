@@ -12,6 +12,7 @@ function BookCab() {
     totalFare: "",
   });
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -21,6 +22,7 @@ function BookCab() {
         setCab(response.data.data);
       } catch (error) {
         setMessage(error.response?.data?.message || "Unable to load cab details.");
+        setMessageType("error");
       }
     };
 
@@ -36,18 +38,26 @@ function BookCab() {
     event.preventDefault();
     setIsSubmitting(true);
     setMessage("");
+    setMessageType("");
 
     try {
+      const fare = Number(formData.totalFare);
+      if (!Number.isFinite(fare) || fare <= 0) {
+        throw new Error("Total fare must be greater than 0.");
+      }
+
       const response = await API.post("/bookings", {
         carId: id,
         ...formData,
-        totalFare: Number(formData.totalFare),
+        totalFare: fare,
       });
 
       setMessage(response.data?.message || "Booking created successfully.");
+      setMessageType("success");
       setFormData({ pickupLocation: "", dropLocation: "", pickupDate: "", totalFare: "" });
     } catch (error) {
-      setMessage(error.response?.data?.message || "Booking failed. Please try again.");
+      setMessage(error.response?.data?.message || error.message || "Booking failed. Please try again.");
+      setMessageType("error");
     } finally {
       setIsSubmitting(false);
     }
@@ -90,7 +100,11 @@ function BookCab() {
             <input type="number" name="totalFare" className="form-control" placeholder="Total Fare" value={formData.totalFare} onChange={handleChange} required />
           </div>
 
-          {message ? <div className="alert alert-info">{message}</div> : null}
+          {message ? (
+            <div className={`alert ${messageType === "success" ? "alert-success" : "alert-danger"}`}>
+              {message}
+            </div>
+          ) : null}
 
           <div className="d-grid gap-3">
             <button 

@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Unav() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg shadow-sm" 
          style={{
@@ -13,7 +21,7 @@ function Unav() {
           CAB BOOKING
         </Link>
 
-        <div className="d-flex gap-4">
+        <div className="d-flex gap-4 align-items-center">
           <Link to="/uhome" className="nav-link text-white fw-medium fs-5">
             Home
           </Link>
@@ -25,6 +33,14 @@ function Unav() {
           <Link to="/mybookings" className="nav-link text-white fw-medium fs-5">
             My Bookings
           </Link>
+
+          <button
+            type="button"
+            className="btn btn-outline-light btn-sm"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       </div>
     </nav>

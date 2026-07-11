@@ -6,6 +6,7 @@ function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (event) => {
@@ -17,15 +18,30 @@ function Login() {
     event.preventDefault();
     setIsSubmitting(true);
     setMessage("");
+    setMessageType("");
 
     try {
-      const response = await API.post("/users/login", formData);
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.data));
+      const payload = {
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      };
+
+      const response = await API.post("/users/login", payload);
+      const token = response.data?.token;
+      const user = response.data?.data;
+
+      if (!token || !user) {
+        throw new Error("Invalid login response from server.");
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       setMessage("Login successful");
+      setMessageType("success");
       navigate("/uhome");
     } catch (error) {
-      setMessage(error.response?.data?.message || "Login failed. Please try again.");
+      setMessage(error.response?.data?.message || error.message || "Login failed. Please try again.");
+      setMessageType("error");
     } finally {
       setIsSubmitting(false);
     }
@@ -74,7 +90,7 @@ function Login() {
           </div>
 
           {message ? (
-            <div className="alert alert-info mb-4" role="alert">
+            <div className={`alert ${messageType === "success" ? "alert-success" : "alert-danger"} mb-4`} role="alert">
               {message}
             </div>
           ) : null}

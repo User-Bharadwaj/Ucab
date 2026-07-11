@@ -17,16 +17,24 @@ const sanitizeUser = (user) => ({
 const registerUser = async (req, res, next) => {
     try {
         const { fullName, name, email, password, phone = "" } = req.body;
-        const userFullName = fullName || name;
+        const userFullName = (fullName || name || "").trim();
+        const normalizedEmail = (email || "").trim().toLowerCase();
 
-        if (!userFullName || !email || !password) {
+        if (!userFullName || !normalizedEmail || !password) {
             return res.status(400).json({
                 success: false,
                 message: "Full name, email, and password are required",
             });
         }
 
-        const existingUser = await User.findOne({ email: email.toLowerCase() });
+        if (password.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 6 characters",
+            });
+        }
+
+        const existingUser = await User.findOne({ email: normalizedEmail });
 
         if (existingUser) {
             return res.status(409).json({
@@ -39,9 +47,9 @@ const registerUser = async (req, res, next) => {
 
         const user = await User.create({
             fullName: userFullName,
-            email: email.toLowerCase(),
+            email: normalizedEmail,
             password: hashedPassword,
-            phone,
+            phone: String(phone).trim(),
         });
 
         return res.status(201).json({
@@ -56,15 +64,16 @@ const registerUser = async (req, res, next) => {
 const loginUser = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+        const normalizedEmail = (email || "").trim().toLowerCase();
 
-        if (!email || !password) {
+        if (!normalizedEmail || !password) {
             return res.status(400).json({
                 success: false,
                 message: "Email and password are required",
             });
         }
 
-        const user = await User.findOne({ email: email.toLowerCase() });
+        const user = await User.findOne({ email: normalizedEmail });
 
         if (!user) {
             return res.status(401).json({
@@ -108,11 +117,20 @@ const updateUserProfile = async (req, res, next) => {
     try {
         const { name, email, password, phone, profileImage } = req.body;
 
-        if (name !== undefined) req.user.fullName = name;
-        if (email !== undefined) req.user.email = email.toLowerCase();
-        if (phone !== undefined) req.user.phone = phone;
+        if (name !== undefined) req.user.fullName = name.trim();
+        if (email !== undefined) req.user.email = email.trim().toLowerCase();
+        if (phone !== undefined) req.user.phone = String(phone).trim();
         if (profileImage !== undefined) req.user.profileImage = profileImage;
-        if (password) req.user.password = await bcrypt.hash(password, 10);
+        if (password) {
+            if (password.length < 6) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Password must be at least 6 characters",
+                });
+            }
+
+            req.user.password = await bcrypt.hash(password, 10);
+        }
 
         const updatedUser = await req.user.save();
 

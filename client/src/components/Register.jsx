@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../../services/api";
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,7 +29,25 @@ function Register() {
     setMessageType("");
 
     try {
-      const response = await API.post("/users/register", formData);
+      const trimmedName = formData.name.trim();
+      const trimmedEmail = formData.email.trim().toLowerCase();
+
+      if (trimmedName.length < 2) {
+        throw new Error("Please enter a valid full name.");
+      }
+
+      if (formData.password.length < 6) {
+        throw new Error("Password must be at least 6 characters.");
+      }
+
+      const payload = {
+        fullName: trimmedName,
+        name: trimmedName,
+        email: trimmedEmail,
+        password: formData.password,
+      };
+
+      const response = await API.post("/users/register", payload);
 
       setMessage(response.data?.message || "Registration successful.");
       setMessageType("success");
@@ -37,9 +56,10 @@ function Register() {
         email: "",
         password: "",
       });
+      navigate("/login");
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Registration failed. Please try again.";
+        error.response?.data?.message || error.message || "Registration failed. Please try again.";
 
       setMessage(errorMessage);
       setMessageType("error");
