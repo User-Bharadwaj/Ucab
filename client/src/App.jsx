@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -6,7 +7,9 @@ import Uhome from "./components/Uhome";
 import Cabs from "./components/Cabs";
 import BookCab from "./components/BookCab";
 import MyBookings from "./components/MyBookings";
+import Profile from "./components/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 
 import Alogin from "./admin/Alogin";
 import Ahome from "./admin/Ahome";
@@ -19,12 +22,35 @@ import Bookings from "./admin/Bookings";
 
 
 function App() {
+
   return (
+
     <BrowserRouter>
+
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+
+
+        {/* User Pages */}
+
+        <Route 
+          path="/" 
+          element={<Home />} 
+        />
+
+
+        <Route 
+          path="/login" 
+          element={<Login />} 
+        />
+
+
+        <Route 
+          path="/register" 
+          element={<Register />} 
+        />
+
+
+
         <Route
           path="/uhome"
           element={
@@ -33,6 +59,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/cabs"
           element={
@@ -41,6 +70,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/bookcab/:id"
           element={
@@ -49,6 +81,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/mybookings"
           element={
@@ -58,7 +93,30 @@ function App() {
           }
         />
 
-        <Route path="/alogin" element={<Alogin />} />
+
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+
+        {/* Admin Pages */}
+
+
+        <Route 
+          path="/alogin" 
+          element={<Alogin />} 
+        />
+
+
+
         <Route
           path="/admin/dashboard"
           element={
@@ -67,6 +125,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/admin/nav"
           element={
@@ -75,6 +136,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/admin/cabs"
           element={
@@ -83,6 +147,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/admin/add-cab"
           element={
@@ -91,6 +158,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/admin/edit-cab/:id"
           element={
@@ -99,6 +169,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/admin/users"
           element={
@@ -107,6 +180,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+
         <Route
           path="/admin/bookings"
           element={
@@ -115,9 +191,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
       </Routes>
+
+
     </BrowserRouter>
+
   );
 }
+
 
 export default App;
