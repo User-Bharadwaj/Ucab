@@ -13,7 +13,7 @@ UCab is a full-stack cab booking application developed using the MERN Stack (Mon
 * JWT Authentication
 * Bootstrap
 
-## Documentation
+## Documentation, Phasewise Templates & Demo Video
 
 Google Drive Folder:
 
